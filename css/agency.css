@@ -733,3 +733,12 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
   width: 1em; /* Also needed for space (tweak if needed) */
   margin-left: -1em; /* Also needed for space (tweak if needed) */
 }
+
+.code-segment{
+  background-color: #fff;
+  padding: 6px 15px;
+  border: solid 1.75px #f0f0f0;
+  border-radius: 3px;
+  width: fit-content;
+  margin: 6px 0;
+}
