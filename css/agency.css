@@ -190,9 +190,10 @@ header.masthead .intro-text {
   padding-bottom: 100px;
 }
 
-header.masthead .portfolio-intro-text {
-  padding-top: 140px;
+.portfolio-intro-text {
+  padding-top: 150px;
   padding-bottom: 100px;
+  text-align: center;
 }
 
 header.masthead .intro-text .intro-lead-in {
@@ -748,7 +749,44 @@ header.masthead .intro-text .intro-lead-in i{
 }
 
 .about-me-text {
-  padding-top: 135px;
+  padding-top: 165px;
   padding-bottom: 100px;
   text-align: left;
+}
+.about-me-text li{
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.about-me-text h5{
+  margin-bottom: 18px;
+  font-size: 155%;
+}
+
+.about-me-text p{
+  width: 72%;
+  letter-spacing: .5px;
+}
+
+.full-bg {
+  text-align: center;
+  color: white;
+  background-image: linear-gradient( to right, rgba(32, 1, 34, .88), rgba(111, 0, 0, .88) ), url("../img/header-bg.jpg");
+  /*background-image: linear-gradient( rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88) ), url("../img/header-bg.jpg");*/
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
+
+.full-bg-vh{
+  text-align: center;
+  color: white;
+  background-image: linear-gradient( to right, rgba(32, 1, 34, .88), rgba(111, 0, 0, .88) ), url("../img/header-bg.jpg");
+  /*background-image: linear-gradient( rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88) ), url("../img/header-bg.jpg");*/
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+  height: 100vh;
 }
