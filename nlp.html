@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jordan Tan</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/agency.css" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+  	<div class="container">
+		<h1 style="margin-top:50px;">Predicting Number of Upvotes for A Headline in Hacker News</h1>
+		<br>
+    <h3>Introduction</h3>
+    <p>
+      You can download the dataset here (<a href="./downloads/original.csv" download>stories_cleaned.csv</a>).
+      <br>The dataset contains more than 1 million rows of entry, for simplicity, we will use only random 3000 rows to make our exciting predictions!
+    <p>
+    <br>
+
+		<h3>Background</h3>
+		<p>
+      Hacker News is a social news website focusing on computer science and entrepreneurship.
+      <br>Users can upvote those news and the news with most upvotes will make it to the front page, making them more visible to the community.
+    </p>
+		<br>
+		<h3>Technologies</h3>
+		<p>Python, Pandas, Numpy, Scikit-learn, Natural Language Processing <em>(bag-of-words model)</em>.</p>
+		<br>
+		<h3>Goal</h3>
+		<p>We want to predict the number of upvotes a headline would receive from the Hacker News community.<br>And we will accomplish this in 3 high-level steps:</p>
+    <ol>
+      <li>Read in and clean the dataset</li>
+      <li>Train the model</li>
+      <li>Make a prediction</li>
+    </ol>
+    <p>Let's begin!</p>
+		<br><br>
+		<h3>Step 1: Read in and clean the dataset</h3>
+    <p>Let's first import pandas and numpy<br>
+      <div class="code-segment">
+        <code>
+          import pandas as pd<br>
+          import numpy as np
+        </code><br>
+      </div>
+      Now, let's read in and clean the dataset. We will take random 3000 rows from the million++ entries.<br>
+      <div class="code-segment">
+        <code>
+          stories = pd.read_csv("stories_cleaned.csv")<br>
+          stories = stories.dropna()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># drop rows which contain missing values</span><br>
+          stories = stories.sample(n=3000)&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># randomly sample only 3000 rows</span><br>
+          stories.columns = ["num_upvotes", "headline"]&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># set column names</span>
+        </code><br>
+      </div>
+    </p><br><br>
+
+    <h3>Step 2: Train the model</h3>
+    <p>
+      To keep this demo short and sweet, I'll skip some explanations of how the code works. However, I've added in comments to facilitate your understanding of the code.<br>An important vocabulary to know however, is the word "token". See "token" as an individual word in a headline and an individual word is also a "feature" in a machine learning model.<br>
+      So, "token" = "feature" = an individual word.
+      <br><br>First, we prepare the necessary data for our model training.<br>
+      Some quick points:<br>
+      <ul>
+        <li>We only use tokens that occur more than once as our model's features.<br>A token that occurs only once has no meaningful significance in telling us how that token will affect the number of upvotes a headline would receive.</li>
+        <li>We further remove some noise by removing features that occurred too seldom (<10 times) and too frequent (>100 times).<br></li>
+      </ul>
+      <div class="code-segment">
+        <code>
+          <span class="text-success">### tokenization - breaking headlines down to individual words ###</span><br>
+          lists_of_tokens = []&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># will be a list of lists</span><br>
+          for hl in stories["headline"]:&nbsp;&nbsp;&nbsp;<span class="text-success"># for each headline in the column</span><br>
+            lists_of_tokens.append(hl.split())&nbsp;&nbsp;&nbsp; <span class="text-success"># split by white space</span><br><br>
+
+          <span class="text-success">### lowercasing and removing punctuations ###</span><br>
+          punctuations = [",", ":", ";", ".", "'", '"', "’", "?", "/", "-", "+", "&", "(", ")"]<br>
+          lists_of_tokens_cleaned = []<br><br>
+
+          for token_list in lists_of_tokens:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;cur_cleaned_list = []<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for token in token_list:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># for each token in the list</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = token.lower()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># convert to all lowercase</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for punc in punctuations:&nbsp;&nbsp;<span class="text-success"># remove all punctuations</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = token.replace(punc, "")<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cur_cleaned_list.append(token)&nbsp;&nbsp;<span class="text-success"># append the cleaned token to cur list</span><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;lists_of_tokens_cleaned.append(cur_cleaned_list)&nbsp;&nbsp;<span class="text-success"># append the cleaned list to l_o_t_cleaned</span><br><br>
+
+          <span class="text-success">### initiate a df with 0s ###</span><br>
+          <span class="text-success"># find a list of unique tokens and we want only tokens that occur more than once</span><br>
+          unique_tokens = []<br>
+          once_tokens = []&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># stores tokens that has occurred once</span><br><br>
+
+          for token_list in lists_of_tokens_cleaned:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;for token in token_list:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if token not in once_tokens:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;once_tokens.append(token)<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif token not in unique_tokens:&nbsp;&nbsp;<span class="text-success"># ...but is in once_tokens[] then..</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unique_tokens.append(token)<br><br>
+
+          <span class="text-success"># create the dataframe: each row = a headline, each column = a token.</span><br>
+          counts = pd.DataFrame(0, index=np.arange(len(lists_of_tokens_cleaned)), columns=unique_tokens)<br><br>
+
+
+          <span class="text-success">### fill in counts for each cell ###</span><br>
+          for row_index, token_list in enumerate(lists_of_tokens_cleaned):&nbsp;&nbsp;<span class="text-success">#enumerate() to use index</span><br>
+            for token in token_list:<br>
+              if token in unique_tokens:<br>
+                counts.iloc[row_index][token] += 1&nbsp;&nbsp;&nbsp;<span class="text-success"># increment count</span><br><br>
+
+          <span class="text-success">### remove noisy tokens - occurred too seldom and too frequent ###</span><br>
+          word_counts = counts.sum(axis=0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># sum by columns; word_counts is a Series</span><br>
+          counts = counts.loc[:, (word_counts>=10) & (word_counts<=100)]&nbsp;&nbsp;<span class="text-success"># take only tokens that occur >10 and <100 times</span><br>
+        </code><br>
+      </div>
+      We now split the dataset<br>
+      <div class="code-segment">
+        <code>
+          <span class="text-success"># split dataset</span><br>
+          from sklearn.model_selection import train_test_split<br><br>
+          X_train, X_test, y_train, y_test = train_test_split(counts, stories["num_upvotes"], test_size=0.2)&nbsp;&nbsp;<span class="text-success"># X is the counts of tokens</span>
+        </code><br>
+      </div>
+      Then we train our model!<br>
+      <div class="code-segment">
+        <code>
+          <span class="text-success"># train</span><br>
+          from sklearn.linear_model import LinearRegression<br><br>
+          lr = LinearRegression()<br>
+          lr.fit(X_train, y_train)
+        </code><br>
+      </div>
+    </p><br><br>
+
+    <h3>Step 3: Make a prediction</h3>
+    <p>
+      Let's create a function that takes in a headline and spits out a predicted number of upvotes based on our model's knowledge :).<br>
+      <div class="code-segment">
+        <code>
+          def upvote_predictor(headline):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># tokenization</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tokenized_headline = headline.split()<br><br>
+
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># lowercasing and removing punctuations</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;punctuation = [",", ":", ";", ".", "'", '"', "’", "?", "/", "-", "+", "&", "(", ")"]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tokenized_headline_cleaned = []<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;for token in tokenized_headline:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = token.lower()<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for punc in punctuation:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = token.replace(punc, "")<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tokenized_headline_cleaned.append(token)<br><br>
+
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># get unique tokens</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;unique_tokens = []<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;once_tokens = []<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;for token in tokenized_headline_cleaned:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if token not in once_tokens:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;once_tokens.append(token)<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif token not in unique_tokens:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unique_tokens.append(token)<br><br>
+          
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-success"># create prediction input</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;single_counts = pd.DataFrame(0, index=[0], columns=X_test.columns)<br>                 
+          &nbsp;&nbsp;&nbsp;&nbsp;for token in tokenized_headline_cleaned:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if token in single_counts.columns:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;single_counts[token] += 1<br><br>
+          
+          &nbsp;&nbsp;&nbsp;&nbsp;prediction = lr.predict(single_counts)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;return prediction
+        </code><br>
+      </div>
+      
+      All we need to do now is to call our custom function to make a prediction!<br>
+      <div class="code-segment">
+        <code>
+          <span class="text-success"># calling our custom function</span><br>
+          print(upvote_predictor("How many upvotes would I get?!"))
+        </code><br>
+      </div>
+      Output:<br>
+      <img alt="upvote prediction" src="./img/hackernews/upvote_prediction.png"><br>
+    </p><br><br>
+
+    <h3>Wrap Up</h3>
+    <p>
+      If you run the prediction code a couple of times, you would notice that we will get a different predicted number of upvotes in every run. That's because our model is trained with a different set of 3000 rows out of the original 1 million++ entries everytime!<br>
+      There are certainly many optimizations that could be done to improve our model's prediction accuracy, like using the entire dataset, adding other useful features like "length of headline", trying with different threshold for removing noisy features etc.<br><br>
+      But that's it for now. Thank you for accompanying me on this exciting exploration. Hope you enjoyed it like I did!
+    </p><br><br><br>
+
+  	</div>
+  	
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
+
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
+
+  </body>
+
+</html>
