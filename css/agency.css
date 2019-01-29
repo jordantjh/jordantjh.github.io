@@ -791,14 +791,28 @@ header.masthead .intro-text .intro-lead-in i{
   height: 100vh;
 }
 
+.carousel-reco-text{
+  padding-top: 30px;
+  text-align: right;
+}
+.carousel-reco-name{
+  text-align: right;
+}
+
 /* Media Queries */
 @media screen and (max-width: 892px) {  /* <892px */
   .full-bg-vh{
     height: auto;
   }
-
-  .carousel-text{
-    padding: 0 20px;
+  .img-col-carousel{
+    display: none;
+  }
+  .carousel-reco-text{
+    padding: 0 40px;
+    text-align: center;
+  }
+  .carousel-reco-name{
+    text-align: center;
   }
 }
 
@@ -807,9 +821,4 @@ header.masthead .intro-text .intro-lead-in i{
     margin: 0 auto;
     margin-bottom: 15px;
   }
-  .reco-img-head{
-
-  }
 }
-
-892-690
