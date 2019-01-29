@@ -3,7 +3,6 @@
  * Copyright 2013-2018 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-agency/blob/master/LICENSE)
  */
-
 body {
   overflow-x: hidden;
   font-family: 'Roboto Slab', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -197,8 +196,8 @@ header.masthead .intro-text {
 }
 
 header.masthead .intro-text .intro-lead-in {
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 32px;   /*smart phone*/
+  line-height: 45px;
   margin-bottom: 25px;
   /*font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';*/
   font-family: 'Noto Sans', Roboto, Arial, sans-serif;
@@ -212,7 +211,7 @@ header.masthead .intro-text .intro-heading {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) {  
   header.masthead .intro-text {
     padding-top: 300px;
     padding-bottom: 200px;
@@ -789,4 +788,18 @@ header.masthead .intro-text .intro-lead-in i{
   background-position: center center;
   background-size: cover;
   height: 100vh;
+}
+
+/* Media Queries */
+@media screen and (max-width: 892px) {  /* <892px */
+  .full-bg-vh{
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 690px) {  /* center porfolio boxes */
+  .portfolio-intro-text .row .col .card-custom{
+    margin: 0 auto;
+    margin-bottom: 15px;
+  }
 }
