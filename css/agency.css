@@ -713,6 +713,7 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 .reco-img-head{
   border: 5px solid #fff;
   border-radius: 50%;
+  height: 100%;
 }
 
 .reco-row-position{
@@ -795,6 +796,9 @@ header.masthead .intro-text .intro-lead-in i{
   .full-bg-vh{
     height: auto;
   }
+  .reco-img-head{
+    height: 70%;
+  }
 }
 
 @media screen and (max-width: 690px) {  /* center porfolio boxes */
@@ -802,4 +806,9 @@ header.masthead .intro-text .intro-lead-in i{
     margin: 0 auto;
     margin-bottom: 15px;
   }
+  .reco-img-head{
+    height: 100%;
+  }
 }
+
+892-690
