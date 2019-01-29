@@ -814,6 +814,9 @@ header.masthead .intro-text .intro-lead-in i{
   .carousel-reco-name{
     text-align: center;
   }
+  .carousel-block{
+    margin-top: -60px;
+  }
 }
 
 @media screen and (max-width: 690px) {  /* center porfolio boxes */
