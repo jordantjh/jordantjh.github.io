@@ -3,7 +3,13 @@
  * Copyright 2013-2018 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-agency/blob/master/LICENSE)
  */
+html{
+  height: 100%;
+}
+
 body {
+  min-height: 100%;
+  height: 100%;
   overflow-x: hidden;
   font-family: 'Roboto Slab', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
@@ -181,7 +187,7 @@ header.masthead {
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
 }
 
 header.masthead .intro-text {
@@ -777,9 +783,11 @@ header.masthead .intro-text .intro-lead-in i{
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
+  min-height: 100%;
+  height: 100%;
 }
 
-.full-bg-vh{
+.full-bg-adapt {
   text-align: center;
   color: white;
   background-image: linear-gradient( to right, rgba(32, 1, 34, .88), rgba(111, 0, 0, .88) ), url("../img/header-bg.jpg");
@@ -788,7 +796,17 @@ header.masthead .intro-text .intro-lead-in i{
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
-  height: 100vh;
+}
+
+.full-bg-adapt-100vh {
+  text-align: center;
+  color: white;
+  background-image: linear-gradient( to right, rgba(32, 1, 34, .88), rgba(111, 0, 0, .88) ), url("../img/header-bg.jpg");
+  /*background-image: linear-gradient( rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88) ), url("../img/header-bg.jpg");*/
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
 }
 
 .carousel-reco-text{
@@ -801,9 +819,6 @@ header.masthead .intro-text .intro-lead-in i{
 
 /* Media Queries */
 @media screen and (max-width: 892px) {  /* <892px */
-  .full-bg-vh{
-    height: auto;
-  }
   .img-col-carousel{
     display: none;
   }
@@ -816,6 +831,12 @@ header.masthead .intro-text .intro-lead-in i{
   }
   .carousel-block{
     margin-top: -60px;
+  }
+}
+
+@media screen and (min-width: 893px){
+  .full-bg-adapt-100vh{
+    height: 100vh;
   }
 }
 
