@@ -237,6 +237,10 @@ header.masthead .intro-text .intro-heading {
   }
 }
 
+.game-window{
+  margin-top: 102px;
+}
+
 .service-heading {
   margin: 15px 0;
   text-transform: none;
