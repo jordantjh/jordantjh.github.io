@@ -6,7 +6,7 @@ html, body{
 }
 
 body{
-	background-image: url('./img/sushidevland/bg.jpg');
+	background-image: url('./../img/sushidevland/bg.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	font-family: 'Overpass', sans-serif;
@@ -59,7 +59,7 @@ body{
   }
 }
 @media only screen and (max-width: 857px) {
-  body{background-image: url('./img/sushidevland/flat.jpg');}
+  body{background-image: url('./../img/sushidevland/flat.jpg');}
   .line-break{display: block;}
   .hide-when-mobile{display: none;}
   .show-when-mobile{display: block;}
