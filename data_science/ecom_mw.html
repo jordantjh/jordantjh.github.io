@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jordan Tan</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="./../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+        type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="./../css/agency.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div class="container">
+        <h1 style="margin-top:50px;">Ecommerce: Should we focus on mobile or web development?</h1>
+        <br>
+
+        <h3>Background</h3>
+        <p>
+            An ecommerce company based in New York City sells clothing online and they also have in-store style and
+            clothing advice seesions.
+        </p>
+        <br>
+        <h3>Technologies</h3>
+        <p>Python, Pandas, Numpy, Seaborn, Scikit-learn</p>
+        <br>
+        <h3>Goal</h3>
+        <p>Based on a customer dataset given by the company, find out whether the company should focus on developing
+            mobile app or web app to best serve their customers that
+            in turn generate the most profit for the company.<br><br><br></p>
+
+        <p>Let's begin!</p>
+        <br><br>
+        <h3>Step 1: Explore the given dataset</h3>
+        <p>Let's read in the dataset<br>
+            <div class="code-segment">
+                <code>
+                import pandas as pd<br>
+                customers = pd.read_csv("ecomm_customers")
+            </code><br>
+            </div>
+            Check what columns are given
+            <div class="code-segment">
+                <code>
+                list(customers.columns)
+            </code><br>
+            </div>
+            <div class="output-segment">
+                >>> ['Email', 'Address', 'Avatar', 'Avg. Session Length', 'Time on App', 'Time on Website', 'Length of
+                Membership', 'Yearly Amount Spent']<br>
+            </div>
+            <br>
+            Let's visualize the correlation between each of the columns.
+            <div class="code-segment">
+                <code>
+                sns.heatmap(customers.corr(), annot=True)
+            </code><br>
+            </div>
+
+        </p><br><br>
+
+        <br><br><br>
+
+        <p class="text-center"><b>The End.<br> I hope you enjoyed the reading. <3</b> </p> <br>
+
+
+    </div>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="./../vendor/jquery/jquery.min.js"></script>
+    <script src="./../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <!-- <script src="vendor/jquery-easing/jquery.easing.min.js"></script> -->
+
+    <!-- Custom scripts for this template -->
+    <script src="./../js/agency.min.js"></script>
+
+</body>
+
+</html>

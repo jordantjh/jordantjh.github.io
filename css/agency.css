@@ -752,6 +752,17 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
   width: fit-content;
   margin: 6px 0;
 }
+.output-segment{
+  background-color: #000;
+  padding: 6px 18px;
+  border: solid 1.75px #000;
+  border-radius: 3px;
+  width: fit-content;
+  margin: 6px 0;
+  color: #fff;
+  letter-spacing: 1.2px;
+  font-size: 70%;
+}
 
 header.masthead .intro-text .intro-lead-in i{
   color: #cd5555;
