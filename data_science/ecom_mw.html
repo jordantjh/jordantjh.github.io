@@ -36,7 +36,7 @@
         <h3>Background</h3>
         <p>
             An ecommerce company based in New York City sells clothing online and they also have in-store style and
-            clothing advice seesions.
+            clothing advice sessions.
         </p>
         <br>
         <h3>Technologies</h3>
@@ -44,8 +44,9 @@
         <br>
         <h3>Goal</h3>
         <p>Based on a customer dataset given by the company, find out whether the company should focus on developing
-            mobile app or web app to best serve their customers that will
-            in turn generate the most profit for the company.<br><br><br></p>
+            their
+            mobile app or web app to best serve the customers that will
+            , in turn, generate the most profit for the company.<br><br><br></p>
 
         <p>Let's begin!</p>
         <br><br>
@@ -107,7 +108,7 @@
             <img alt="web vs spent" src="./../img/ecom_mw/joint_web.png" style="width: 450px; height: auto;"><br>
         </p>
         From the above two plots, we can see "Time on App" has a more linear relationship to "Yearly Amount Spent" (more
-        time on app, more
+        time on the mobile app, more
         profit to the company).<br><br>
         <b>At this point, we can already conclude that the mobile app is more profitable than the website.</b><br><br>
         However, let us still build a Linear Regression model to see if we missed out any crucial components
@@ -128,7 +129,23 @@
                     </code><br>
         </div>
         <br>
-        Using the model, let's see how all the features relate to company's profit - "Yearly Amount Spent":
+        Investigate our model's accuracy:
+        <div class="code-segment">
+            <code>
+                    predictions = lm.predict(X_test)<br><br>
+
+                    from sklearn import metrics<br>
+                    import numpy as np<br>
+                    print("RMSE:", np.sqrt(metrics.mean_squared_error(y_test, predictions)))         
+                        </code><br>
+        </div>
+        <div class="output-segment">
+            >>> RMSE: 8.861125833738813<br>
+        </div>
+        A mean error of only $8.86 for the predictions which I'd say that the model is rather accurate. <br><br>
+
+        Therefore, we can rely on the model to see how all the features relate to company's profit ("Yearly Amount
+        Spent"):
         <div class="code-segment">
             <code>
                     coeffs = pd.DataFrame(lm.coef_, X.columns)<br>
@@ -138,14 +155,14 @@
         </div>
         <img alt="heatmap" src="./../img/ecom_mw/coeffs.png" style="width: 250px; height: auto;"><br><br>
         Interpretation: <br>
-        1. Every 1 unit (minute) increase in time spent on website would increase ~$0.499 in company's
+        1. Every 1 unit (minute) increase in time spent on the website would increase ~$0.499 in company's
         profit.<br>
-        2. Every 1 unit (minute) increase in time spent on mobile app would increase ~$38.325 in company's
+        2. Every 1 unit (minute) increase in time spent on the mobile app would increase ~$38.325 in company's
         profit.<br>
 
         <br><br>
         <h3>Conclusion</h3>
-        The analysis suggests that mobile app is 76 times more profitable than the website.<br>
+        The analysis suggests that the mobile app is 76 times more profitable than the website.<br>
         However, it is unclear from the data whether the website is an important piece that supports the mobile
         experience.<br>
         <b>Hence, I suggest that the company invest just enough to make the website functional and decent. And focus the
