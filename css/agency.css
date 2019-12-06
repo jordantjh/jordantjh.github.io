@@ -832,6 +832,11 @@ header.masthead .intro-text .intro-lead-in i{
   text-align: right;
 }
 
+.pub-date-text{
+  color: #222;
+  font-style: italic;
+}
+
 /* Media Queries */
 @media screen and (max-width: 892px) {  /* <892px */
   .img-col-carousel{

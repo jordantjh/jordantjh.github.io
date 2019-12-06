@@ -30,6 +30,7 @@
 
     <div class="container">
         <h1 style="margin-top:50px;">Ecommerce: Should we focus on mobile or web development?</h1>
+        <!-- <p class="pub-date-text">Publication date: Dec. 6, 2019</p> -->
         <br>
 
         <h3>Background</h3>
@@ -43,7 +44,7 @@
         <br>
         <h3>Goal</h3>
         <p>Based on a customer dataset given by the company, find out whether the company should focus on developing
-            mobile app or web app to best serve their customers that
+            mobile app or web app to best serve their customers that will
             in turn generate the most profit for the company.<br><br><br></p>
 
         <p>Let's begin!</p>
@@ -67,18 +68,93 @@
                 Membership', 'Yearly Amount Spent']<br>
             </div>
             <br>
-            Let's visualize the correlation between each of the columns.
+            Since our goal is to maximize the company's profit, "Yearly Amount Spent" seems to be a crucial feature we
+            will be focusing on. <br>"Time on App" and "Time on Website" also seem to be important to answer the
+            original
+            question "Mobile or Web?". <br><br>
+            Now, let's visualize the correlation between each of the features using Seaborn.
             <div class="code-segment">
                 <code>
+                import seaborn as sns<br>
                 sns.heatmap(customers.corr(), annot=True)
             </code><br>
             </div>
+            <img alt="heatmap" src="./../img/ecom_mw/heatmap.png" style="width: 550px; height: auto;"><br>
+            A correlation value of 1 means that the two features correlate to each other completely.
+            For example, it makes sense that "Time on App" is 100% correlated with "Time on App" itself.
+            We can safely ignore the 1s in this plot.<br><br>
 
-        </p><br><br>
+            We can see there is a very high correlation value of 0.81 between "Yearly Amount Spent" and "Length of
+            Membership". Hence, we know that the longer the membership, the more amount that customer will
+            spend.<br><br>
 
-        <br><br><br>
+            Since this insight doesn't give a direct answer to our original question of "Mobile or Web?", let's continue
+            exploring the data given.<br><br>
 
-        <p class="text-center"><b>The End.<br> I hope you enjoyed the reading. <3</b> </p> <br>
+            Visualize "Time on App" vs "Yearly Amount Spent"<br>
+            <div class="code-segment">
+                <code>
+                    sns.jointplot(x="Time on App", y="Yearly Amount Spent", data=customers)
+                </code><br>
+            </div>
+            <img alt="app vs spent" src="./../img/ecom_mw/joint_app.png" style="width: 450px; height: auto;"><br><br>
+            "Time on Website" vs "Yearly Amount Spent"<br>
+            <div class="code-segment">
+                <code>
+                    sns.jointplot(x="Time on Website", y="Yearly Amount Spent", data=customers)
+                </code><br>
+            </div>
+            <img alt="web vs spent" src="./../img/ecom_mw/joint_web.png" style="width: 450px; height: auto;"><br>
+        </p>
+        From the above two plots, we can see "Time on App" has a more linear relationship to "Yearly Amount Spent" (more
+        time on app, more
+        profit to the company).<br><br>
+        <b>At this point, we can already conclude that the mobile app is more profitable than the website.</b><br><br>
+        However, let us still build a Linear Regression model to see if we missed out any crucial components
+        <div class="code-segment">
+            <code>
+                    from sklearn.model_selection import train_test_split<br><br>
+                    y = customers['Yearly Amount Spent']<br>
+                    X = customers[['Avg. Session Length', 'Time on App', 'Time on Website', 'Length of Membership']]<br>
+                    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)<br>
+                </code><br>
+        </div>
+        build the model:
+        <div class="code-segment">
+            <code>
+                    from sklearn.linear_model import LinearRegression<br><br>
+                    lm = LinearRegression()<br>
+                    lm.fit(X_train, y_train)<br>           
+                    </code><br>
+        </div>
+        <br>
+        Using the model, let's see how all the features relate to company's profit - "Yearly Amount Spent":
+        <div class="code-segment">
+            <code>
+                    coeffs = pd.DataFrame(lm.coef_, X.columns)<br>
+                    coeffs.columns = ['Coefficient']<br>
+                    coeffs         
+                        </code><br>
+        </div>
+        <img alt="heatmap" src="./../img/ecom_mw/coeffs.png" style="width: 250px; height: auto;"><br><br>
+        Interpretation: <br>
+        1. Every 1 unit (minute) increase in time spent on website would increase ~$0.499 in company's
+        profit.<br>
+        2. Every 1 unit (minute) increase in time spent on mobile app would increase ~$38.325 in company's
+        profit.<br>
+
+        <br><br>
+        <h3>Conclusion</h3>
+        The analysis suggests that mobile app is 76 times more profitable than the website.<br>
+        However, it is unclear from the data whether the website is an important piece that supports the mobile
+        experience.<br>
+        <b>Hence, I suggest that the company invest just enough to make the website functional and decent. And focus the
+            rest of the available effort into optimizing the mobile experience and bringing customers onboard to using
+            the
+            mobile
+            app.<b>
+                <br><br><br><br>
+                <p class="text-center"><b>The End.<br> I hope you enjoyed the reading. <3</b> </p> <br>
 
 
     </div>
